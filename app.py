@@ -65,15 +65,27 @@ def register():
 @app.route('/login', methods=["GET", "POST"])
 def login():
   if request.method == "POST":
-    user = User.query.filter_by(email=request.form.get("email").first())
-    if user.password == request.form.get("password"):
-      pass
+    user = User.query.filter_by(email=request.form.get("email")).first()
+    print(user)
+    if user == None:
+      return render_template("failure.html", msg="email id does not have a user")
+    else:
+      if user.password == request.form.get("password"):
+        session["name"] = user.firstname
+        return redirect(url_for("index"))
+      
+      return render_template("failure.html", msg="Email or password wrong")
+  else:
+     if session["name"]:
+        return redirect(url_for("index"))
+     else:
+      return render_template("login.html")
 
 @app.route('/logout')
 def logout():
-  pass
+  session["name"] = None
+  return redirect(url_for("index"))
 
 
 if __name__ == "__main__":
-  db.create_all()
   app.run(debug=True)
