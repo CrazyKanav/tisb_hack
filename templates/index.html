@@ -6,4 +6,34 @@
 
 {% block body %}
 <h1>Online Tutoring</h1>
+{% if name %} <!-- Logged in-->
+  <nav>
+      <ul>
+        <!-- {{ name }} -->
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+  </nav>
+{% else %}
+  <a href="/login">Login</a>
+  <h1>Create an account</h1>
+  <form action="/register" method="post">
+    <label for="firstname">Firstname:</label>
+    <input type="text" name="firstname" />
+
+    <label for="lastname">Lastname:</label>
+    <input type="text" name="lastname" />
+
+    <label for="age">Age:</label>
+    <input type="number" name="age" />
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" />
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" />
+
+    <button type="submit">Submit</button>
+  </form>
+{% endif %}
+
 {% endblock %}
