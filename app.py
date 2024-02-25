@@ -74,7 +74,7 @@ def login():
         session["name"] = user.firstname
         return redirect(url_for("index"))
       
-      return render_template("failure.html", msg="Email or password wrong")
+      return render_template("failure.html", msg="password wrong")
   else:
      if session["name"]:
         return redirect(url_for("index"))
