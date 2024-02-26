@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, session
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import DeclarativeBase, relationship
 from flask_session import Session
 
 
@@ -24,8 +24,20 @@ class User(db.Model):
     email = db.Column(db.String, nullable=False, )
     password = db.Column(db.String, nullable=False)
 
+    student = relationship("Student", uselist=False, back_populates="user", cascade="all, delete-orphan")
+
+    teacher = relationship("Teacher", uselist=False, back_populates="user", cascade="all, delete-orphan")
+
     def __repr__(self):
         return f'User{self.id} {self.firstname}'
+
+class Teacher(db.Model):
+    __tablename__ = 'teacher'
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True)
+    bio = db.Column(db.String, nullable=False)
+    qualifications = db.
+
+    user = relationship("User", back_populates="teacher")
 
 # login_manager = LoginManager()
 # login_manager.init_app(app)
@@ -76,9 +88,10 @@ def login():
       
       return render_template("failure.html", msg="password wrong")
   else:
-     if session["name"]:
-        return redirect(url_for("index"))
-     else:
+    try:
+      if session["name"]:
+          return redirect(url_for("index"))
+    except KeyError:
       return render_template("login.html")
 
 @app.route('/logout')
