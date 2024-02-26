@@ -6,11 +6,16 @@
 
 {% block body %}
 <h1>Online Tutoring</h1>
-{% if name %} <!-- Logged in-->
+{% if user %} <!-- Logged in-->
   <nav>
+    <h1>Welcome back {{ user.firstname }}</h1>
       <ul>
-        <!-- {{ name }} -->
         <li><a href="/logout">Logout</a></li>
+        {% if user.teacher %}
+          <h1>Alr a teacher</h1>
+        {% else %}
+          <li><a href="/signup_teacher">Signup as a teacher</a></li>
+        {% endif %}
       </ul>
   </nav>
 {% else %}

@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<title>Sign up</title>
+<link rel="stylesheet" href="/static/styles/login.css">
+{% endblock %}
+
+{% block body %}
+	<div class="container" id="container">
+		<div class="form-container sign-up-container">
+			<form action="/register" method="post">
+				<h1>signup</h1>
+                <input type="firstname" placeholder="Enter firstname" name="firstname"/>
+                <input type="lastname" placeholder="Enter lastname" name="lastname"/>
+                <input type="age" placeholder="Enter age" name="age"/>
+				<input type="email" placeholder="Email" name="email" />
+				<input type="password" placeholder="Password" name="password"/>
+				<button>Sign up</button>
+			</form>
+		</div>
+		<div class="overlay-container">
+			<div class="overlay">
+				<div class="overlay-panel overlay-right">
+					<h1>Title of the thingy</h1>
+					<p>Login to uncover a world.</p>
+                    <br>
+                    <br>
+                    <button>Click here to login</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
