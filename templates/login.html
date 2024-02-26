@@ -6,14 +6,18 @@
 {% endblock %}
 
 {% block body %}
-<h1>Login</h1>
 <form action="/login" method="post">
-    <label for="email">Email:</label>
-    <input type="email" name="email">
-
-    <label for="password">Password:</label>
-    <input type="password" name="password">
-
-    <button type="submit">Submit</button>
+    <h1>Login</h1>
+    <input type="email" placeholder="Email" name="email" />
+    <input type="password" placeholder="Password" name="password"/>
+    <button type="submit">Log In</button>
 </form>
+<div class="overlay-container">
+    <div class="overlay">
+    <div class="overlay-panel overlay-right">
+    <h1>Title of the app</h1>
+    <p>This app is used to connect college students working as mentors with students who need help</p>
+    </div>
+    </div>
+</div>
 {% endblock %}
