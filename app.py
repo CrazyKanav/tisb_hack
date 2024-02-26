@@ -43,7 +43,9 @@ class User(db.Model):
 
 # login_manager = LoginManager()
 # login_manager.init_app(app)
+    
 
+# session["name"] = None
 
 @app.route('/')
 def index():
@@ -90,6 +92,10 @@ def login():
       
       return render_template("failure.html", msg="password wrong")
   else:
+    try:
+      cookie = session["name"]
+    except KeyError:
+      return render_template("login.html")
     if session["name"]:
         return redirect(url_for("index"))
     else:
