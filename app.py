@@ -24,20 +24,22 @@ class User(db.Model):
     email = db.Column(db.String, nullable=False, )
     password = db.Column(db.String, nullable=False)
 
-    student = relationship("Student", uselist=False, back_populates="user", cascade="all, delete-orphan")
+    # student = relationship("Student", uselist=False, back_populates="user", cascade="all, delete-orphan")
 
-    teacher = relationship("Teacher", uselist=False, back_populates="user", cascade="all, delete-orphan")
+    # teacher = relationship("Teacher", uselist=False, back_populates="user", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f'User{self.id} {self.firstname}'
 
-class Teacher(db.Model):
-    __tablename__ = 'teacher'
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True)
-    bio = db.Column(db.String, nullable=False)
-    qualifications = db.
+# class Teacher(db.Model):
+#     __tablename__ = 'teacher'
+#     id = db.Column(db.Integer, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True)
+#     bio = db.Column(db.String, nullable=False)
+#     qualifications = db.Column(db.Text, nullable=False)
 
-    user = relationship("User", back_populates="teacher")
+
+#     user = relationship("User", back_populates="teacher")
 
 # login_manager = LoginManager()
 # login_manager.init_app(app)
@@ -88,10 +90,9 @@ def login():
       
       return render_template("failure.html", msg="password wrong")
   else:
-    try:
-      if session["name"]:
-          return redirect(url_for("index"))
-    except KeyError:
+    if session["name"]:
+        return redirect(url_for("index"))
+    else:
       return render_template("login.html")
 
 @app.route('/logout')
