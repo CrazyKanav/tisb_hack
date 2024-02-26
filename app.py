@@ -86,32 +86,35 @@ def index():
     # return render_template("index.html", name=user, teacher=session.get("is_teacher"))
     return render_template("index.html", user=user, teacher=session.get("is_teacher"))
 
-@app.route('/register', methods=["POST"])
+@app.route('/register', methods=["POST", "GET"])
 def register():
-  firstname = request.form.get("firstname")
-  lastname = request.form.get("lastname")
-  age = request.form.get("age")
-  email = request.form.get("email")
-  password = request.form.get("password")
+  if request.method == "POST":
+    firstname = request.form.get("firstname")
+    lastname = request.form.get("lastname")
+    age = request.form.get("age")
+    email = request.form.get("email")
+    password = request.form.get("password")
 
-  if not firstname or (not lastname) or (not age):
-    return render_template("failure.html", msg="Form not filled properly", send_to_home=True)
+    if not firstname or (not lastname) or (not age):
+      return render_template("failure.html", msg="Form not filled properly", send_to_home=True)
 
-  user = User.query.filter_by(email=email).first()
-  if user:
-    return render_template("failure.html", msg="Email already has a account made", send_to_home=True)
+    user = User.query.filter_by(email=email).first()
+    if user:
+      return render_template("failure.html", msg="Email already has a account made", send_to_home=True)
 
-  user = User(firstname=firstname, 
-              lastname=lastname,
-              age=age,
-              email=email,
-              password=password)
-  db.session.add(user)
-  db.session.commit()
+    user = User(firstname=firstname, 
+                lastname=lastname,
+                age=age,
+                email=email,
+                password=password)
+    db.session.add(user)
+    db.session.commit()
 
-  session["name"] = firstname
+    session["name"] = firstname
 
-  return redirect(url_for("index"))
+    return redirect(url_for("index"))
+  else:
+    return render_template("signup.html")
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -127,14 +130,7 @@ def login():
       
       return render_template("failure.html", msg="password wrong")
   else:
-    try:
-      if session["name"] != None:
-          print(session["name"])
-          return redirect(url_for("index"))
-      else:
-        return render_template("login.html")
-    except KeyError:
-      return render_template("failure.html", msg="Account not made yet, go register", send_to_home=True)
+    return render_template("index.html")
 
 @app.route('/logout')
 def logout():
