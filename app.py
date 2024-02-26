@@ -26,20 +26,19 @@ class User(db.Model):
 
     # student = relationship("Student", uselist=False, back_populates="user", cascade="all, delete-orphan")
 
-    # teacher = relationship("Teacher", uselist=False, back_populates="user", cascade="all, delete-orphan")
+    teacher = relationship("Teacher", uselist=False, back_populates="user", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f'User{self.id} {self.firstname}'
 
-# class Teacher(db.Model):
-#     __tablename__ = 'teacher'
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True)
-#     bio = db.Column(db.String, nullable=False)
-#     qualifications = db.Column(db.Text, nullable=False)
+class Teacher(db.Model):
+    __tablename__ = 'teacher'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True)
+    bio = db.Column(db.String, nullable=False)
+    qualifications = db.Column(db.Text, nullable=False)
 
-
-#     user = relationship("User", back_populates="teacher")
+    user = relationship("User", back_populates="teacher")
 
 # login_manager = LoginManager()
 # login_manager.init_app(app)
@@ -60,11 +59,11 @@ def register():
   password = request.form.get("password")
 
   if not firstname or (not lastname) or (not age):
-    return render_template("failure.html", msg="Form not filled properly")
+    return render_template("failure.html", msg="Form not filled properly", send_to_home=True)
 
   user = User.query.filter_by(email=email).first()
   if user:
-    return render_template("failure.html", msg="Email already has a account made")
+    return render_template("failure.html", msg="Email already has a account made", send_to_home=True)
 
   user = User(firstname=firstname, 
               lastname=lastname,
@@ -93,13 +92,12 @@ def login():
       return render_template("failure.html", msg="password wrong")
   else:
     try:
-      cookie = session["name"]
+      if session["name"]:
+          return redirect(url_for("index"))
+      else:
+        return render_template("login.html")
     except KeyError:
-      return render_template("login.html")
-    if session["name"]:
-        return redirect(url_for("index"))
-    else:
-      return render_template("login.html")
+      return render_template("failure.html", msg="Account not made yet, go register", send_to_home=True)
 
 @app.route('/logout')
 def logout():
