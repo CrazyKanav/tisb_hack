@@ -37,8 +37,19 @@ class Teacher(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True)
     bio = db.Column(db.String, nullable=False)
     qualifications = db.Column(db.Text, nullable=False)
+    subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'))
 
     user = relationship("User", back_populates="teacher")
+    subject = relationship("Subject", back_populates="teacher")
+
+class Subject(db.Model):
+  __tablename__ = 'subjects'
+  id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+  subject_name = db.Column(db.String, nullable=False)
+
+  def __repr__(self):
+    return f"{self.subject_name}"
+  teacher = relationship("Teacher", back_populates="subject")
 
 def check_teacher(user):
   if user.teacher:
@@ -46,24 +57,33 @@ def check_teacher(user):
   else:
     return False
 
+def get_subjects():
+  subjects = Subject.query.all()
+  return subjects
+
+
+
 @app.route('/signup_teacher', methods=["GET", "POST"])
 def signup_teacher():
     if request.method == "POST":
         # Check if the user is logged in
         if session["name"] == None:
-            return render_template("failure.html", msg="You need to log in to become a teacher")
+            return render_template("failure.html", msg="You need to log in to become a teacher", send_to_home=True)
 
         # Retrieve additional data for teacher profile
         bio = request.form.get("bio")
         qualifications = request.form.get("qualifications")
+        subject = request.form.get("subject") # get the subject 
         
         # Fetch the logged-in user
         user_name = session['name']
         user = User.query.filter_by(firstname=user_name).first()
         print(user)
+
+        subject_id = Subject.query.filter_by(subject_name=subject).first()
         
         # Create a new teacher profile associated with the logged-in user
-        new_teacher = Teacher(user=user, bio=bio, qualifications=qualifications)
+        new_teacher = Teacher(user=user, bio=bio, qualifications=qualifications, subject=subject_id)
         db.session.add(new_teacher)
         db.session.commit()
 
@@ -72,17 +92,29 @@ def signup_teacher():
 
         return redirect(url_for("index"))
     else:
+      if session['name'] == None:
+          return render_template("failure.html", msg="You need to log in to become a teacher", send_to_home=True)
+      try:
         if session['is_teacher'] == True:
           return render_template("failure.html" , msg="Already a teacher", send_to_home=True)
-        if session['name'] == None:
-          return render_template("failure.html", msg="You need to log in to become a teacher", send_to_home=True)
+        else:
+          # Fetch all available subjects
+          subjects = get_subjects()
+          print(subjects)
+          return render_template("signup_teacher.html", subjects=subjects)
+      except KeyError: # to make sure if the value shows an error 
+        session["is_teacher"] = False
         return render_template("signup_teacher.html")
 
 @app.route('/')
 def index():
   # try:
-    print(session["name"])
-    user = User.query.filter_by(firstname=session["name"]).first()
+    # print(session["name"])
+    try:
+      user = User.query.filter_by(firstname=session["name"]).first()
+    except KeyError:
+      session["name"] = None
+      user =  None
     # return render_template("index.html", name=user, teacher=session.get("is_teacher"))
     return render_template("index.html", user=user, teacher=session.get("is_teacher"))
 
@@ -122,13 +154,13 @@ def login():
     user = User.query.filter_by(email=request.form.get("email")).first()
     print(user)
     if user == None:
-      return render_template("failure.html", msg="email id does not have a user")
+      return render_template("failure.html", msg="email id does not have a user", send_to_home=True)
     else:
       if user.password == request.form.get("password"):
         session["name"] = user.firstname
         return redirect(url_for("index"))
       
-      return render_template("failure.html", msg="password wrong")
+      return render_template("failure.html", msg="password wrong", send_to_home=True)
   else:
     return render_template("index.html")
 
@@ -138,9 +170,18 @@ def logout():
   session["is_teacher"] = None
   return redirect(url_for("index"))
 
-@app.route('/test')
-def test():
-   return render_template("test.html")
+@app.route('/search', methods=["GET", "POST"])
+def search():
+  if request.method == "GET":
+    subjects = get_subjects()
+    teachers = None
+    return render_template("search.html", teachers=teachers, subjects=subjects)
+  else:
+    subject_name = request.form.get("subject")
+    subject = Subject.query.filter_by(subject_name=subject_name).first()
+    teachers = Teacher.query.filter_by(subject=subject).all()
+    subjects = get_subjects()
+    return render_template("search.html", teachers=teachers, subject=subject, subjects=subjects)
 
 if __name__ == "__main__":
   app.run(debug=True)

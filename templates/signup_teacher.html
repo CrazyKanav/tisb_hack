@@ -12,6 +12,12 @@
         <textarea id="bio" name="bio" rows="4" cols="50" required></textarea><br>
         <label for="qualifications">Qualifications:</label><br>
         <textarea id="qualifications" name="qualifications" rows="4" cols="50" required></textarea><br>
+        <h1>Subjects</h1>
+        <select name="subject" id="subject">
+            {% for subject in subjects %}
+                <option value="{{ subject }}">{{ subject }}</option>
+            {% endfor %}
+          </select>
         <input type="submit" value="Submit">
     </form>
 </body>
