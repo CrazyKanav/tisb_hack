@@ -183,5 +183,10 @@ def search():
     subjects = get_subjects()
     return render_template("search.html", teachers=teachers, subject=subject, subjects=subjects)
 
+@app.route('/teacher/<id>')
+def teacher(id):
+  teacher = Teacher.query.filter_by(id=id).first()
+  return render_template("teacher.html", teacher=teacher)
+
 if __name__ == "__main__":
   app.run(debug=True)

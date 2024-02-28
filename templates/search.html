@@ -26,7 +26,9 @@
     <h1>{{ subject }} teachers:</h1>
     <ul>
         {% for teacher in teachers %}
+           <a href="/teacher/{{ teacher.id }}"> 
             <li>{{ teacher.user.firstname }} {{ teacher.user.lastname }}</li>
+           </a>
         {% endfor %}
     </ul>
     {% endif %}

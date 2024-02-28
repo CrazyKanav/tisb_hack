@@ -2,50 +2,60 @@
 
 {% block head %}
 <title>Online Tutoring</title>
-<link rel="stylesheet" href="/static/styles/login.css">
+{% if user %}
+  <link rel="stylesheet" href="/static/styles/index.css">
+{% else %}
+  <link rel="stylesheet" href="/static/styles/login.css">
+{% endif %}
 {% endblock %}
 
 {% block body %}
-<h1>Online Tutoring</h1>
+<nav class="navbar">
+  <a href="#" class="brand">Online Tutoring</a>
+  <ul class="nav-links">
+    <li><a href="/search">Search for a teacher</a></li>
+    <li><a href="/signup_teacher">Signup as Teacher</a></li>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+</nav>
 {% if user %} <!-- Logged in-->
-  <nav>
     <h1>Welcome back {{ user.firstname }}</h1>
-      <ul>
-        <li><a href="/logout">Logout</a></li>
-        {% if user.teacher %}
-          <h1>Alr a teacher</h1>
-        {% else %}
-          <li><a href="/signup_teacher">Signup as a teacher</a></li>
-          <li><a href="/search">Search for a teacher</a></li>
-        {% endif %}
-      </ul>
-  </nav>
+    <div class="subject-grid">
+      <div class="subject" data-subject="math">
+        <i class="fas fa-calculator"></i>
+        <span>Math</span>
+      </div>
+      <div class="subject" data-subject="science">
+        <i class="fas fa-flask"></i>
+        <span>Science</span>
+      </div>
+    </div>    
 {% else %}
-<div class="container" id="container">
-  <div class="form-container log-in-container">
-    <form action="/login" method="post">
-      <h1>Login</h1>
-              <br>
-              <br>
-      <input type="email" placeholder="Email" name="email" />
-      <input type="password" placeholder="Password" name="password"/>
-      <button>Log In</button>
-    </form>
-  </div>
-  <div class="overlay-container">
-    <div class="overlay">
-      <div class="overlay-panel overlay-right">
-        <h1>Title of the thingy</h1>
-        <p>Login to uncover a world.</p>
-                  <br>
-                  <br>
-                  <a href="/register">
-                      <button >Click here to sign up</button>
-                  </a>
+  <div class="container" id="container">
+    <div class="form-container log-in-container">
+      <form action="/login" method="post">
+        <h1>Login</h1>
+                <br>
+                <br>
+        <input type="email" placeholder="Email" name="email" />
+        <input type="password" placeholder="Password" name="password"/>
+        <button>Log In</button>
+      </form>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-right">
+          <h1>Title of the thingy</h1>
+          <p>Login to uncover a world.</p>
+                    <br>
+                    <br>
+                    <a href="/register">
+                        <button >Click here to sign up</button>
+                    </a>
+        </div>
       </div>
     </div>
   </div>
-</div>
 {% endif %}
 
 {% endblock %}

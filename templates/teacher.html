@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+    <title>{{ teacher.user.firstname }} {{ teacher.user.lastname }}</title>
+{% endblock %}
+
+{% block body %}
+    <h1>{{ teacher.user.firstname }} {{ teacher.user.lastname }}: {{ teacher.subject}} teacher</h1>
+    <hr>
+    <h2>Bio</h2>
+    {{ teacher.bio }}<br>
+    Age: {{ teacher.user.age}}
+    <h2>Qualifications:</h2>
+    {{ teacher.qualifications }}
+    <hr>
+    <h1>Contact</h1>
+    <h3>Email: {{ teacher.user.email }}</h3>
+{% endblock %}
