@@ -1,0 +1,48 @@
+/* General styles */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+/* Container for content */
+.container {
+    width: 600px;
+    margin: 100px auto;
+    text-align: center;
+}
+
+/* Error message */
+h1 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    animation: wobble 1s ease-in-out infinite;
+}
+
+@keyframes wobble {
+    0% { transform: rotateZ(0deg); }
+    25% { transform: rotateZ(-5deg); }
+    75% { transform: rotateZ(5deg); }
+    100% { transform: rotateZ(0deg); }
+}
+
+/* Image */
+img {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* Link to homepage */
+a {
+    color: #333;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+a:hover {
+    background-color: #ccc;
+}
