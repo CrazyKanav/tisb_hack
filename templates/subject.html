@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<title>Search for a teacher</title>
+<link rel="stylesheet" href="/static/styles/subject.css">
+<link rel="stylesheet" href="/static/styles/index.css">
+{% endblock %}
+
+{% block body %}
+    <nav class="navbar">
+        <a href="/" class="brand">Online Tutoring</a>
+        <ul class="nav-links">
+            <li><a href="/signup_teacher">Signup as Teacher</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+    <h1>{{ teachers[0].subject }} teachers</h1>
+    <hr>
+    <div class="container">
+        {% for teacher in teachers %}
+        <a href="/teacher/{{ teacher.id }}">
+            <div class="teacher-card">
+                <h2>{{ teacher.user.firstname}} {{ teacher.user.lastname }}</h2>
+                <p>{{ teacher.user.age}} years old</p>
+                <h4>Bio: </h4>
+                <p>{{ teacher.bio }}</p>
+                <h4>Qualifications</h4>
+                <p>{{ teacher.qualifications }}</p>
+                <div class="contact">
+                    <p>{{ teacher.user.email }}</p>
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+    </div>
+{% endblock %}
+ 

@@ -170,18 +170,12 @@ def logout():
   session["is_teacher"] = None
   return redirect(url_for("index"))
 
-@app.route('/search', methods=["GET", "POST"])
-def search():
-  if request.method == "GET":
-    subjects = get_subjects()
-    teachers = None
-    return render_template("search.html", teachers=teachers, subjects=subjects)
-  else:
-    subject_name = request.form.get("subject")
-    subject = Subject.query.filter_by(subject_name=subject_name).first()
-    teachers = Teacher.query.filter_by(subject=subject).all()
-    subjects = get_subjects()
-    return render_template("search.html", teachers=teachers, subject=subject, subjects=subjects)
+@app.route('/subject/<name>')
+def subject(name):
+  subject = Subject.query.filter_by(subject_name=name.capitalize()).first()
+  teachers = Teacher.query.filter_by(subject=subject).all()
+  return render_template("subject.html", teachers=teachers)
+
 
 @app.route('/teacher/<id>')
 def teacher(id):

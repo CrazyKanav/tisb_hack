@@ -10,24 +10,30 @@
 {% endblock %}
 
 {% block body %}
+
+{% if user %} <!-- Logged in-->
 <nav class="navbar">
   <a href="#" class="brand">Online Tutoring</a>
   <ul class="nav-links">
-    <li><a href="/search">Search for a teacher</a></li>
-    <li><a href="/signup_teacher">Signup as Teacher</a></li>
+    {% if not teacher %}
+      <li><a href="/signup_teacher">Signup as Teacher</a></li>
+    {% endif %}
     <li><a href="/logout">Logout</a></li>
   </ul>
 </nav>
-{% if user %} <!-- Logged in-->
     <h1>Welcome back {{ user.firstname }}</h1>
     <div class="subject-grid">
       <div class="subject" data-subject="math">
-        <i class="fas fa-calculator"></i>
-        <span>Math</span>
+        <a href="/subject/maths">
+          <i class="fas fa-calculator"></i>
+          <span>Math</span>
+        </a>
       </div>
-      <div class="subject" data-subject="science">
-        <i class="fas fa-flask"></i>
-        <span>Science</span>
+      <div class="subject" data-subject="english">
+        <a href="/subject/english">
+          <i class="fas fa-flask"></i>
+          <span>English</span>
+        </a>
       </div>
     </div>    
 {% else %}
