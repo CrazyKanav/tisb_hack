@@ -2,17 +2,34 @@
 
 {% block head %}
     <title>{{ teacher.user.firstname }} {{ teacher.user.lastname }}</title>
+    <link rel="stylesheet" href="/static/styles/teacher.css">
+    <link rel="stylesheet" href="/static/styles/index.css">
 {% endblock %}
 
 {% block body %}
-    <h1>{{ teacher.user.firstname }} {{ teacher.user.lastname }}: {{ teacher.subject}} teacher</h1>
-    <hr>
-    <h2>Bio</h2>
-    {{ teacher.bio }}<br>
-    Age: {{ teacher.user.age}}
-    <h2>Qualifications:</h2>
-    {{ teacher.qualifications }}
-    <hr>
-    <h1>Contact</h1>
-    <h3>Email: {{ teacher.user.email }}</h3>
+<nav class="navbar">
+    <a href="/" class="brand">Online Tutoring</a>
+    <ul class="nav-links">
+        <li><a href="/signup_teacher">Signup as Teacher</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+</nav>
+<br><br>
+    <div class="teacher-info">
+        <h1>{{ teacher.user.firstname }} {{ teacher.user.lastname}}</h1> <h2>{{ teacher.subject }} Teacher</h2>
+        <hr>
+        <div class="bio">
+          <h3>Bio</h3>
+          <p>{{ teacher.bio }}</p> 
+        </div>
+        <div class="qualifications">
+          <h3>Qualifications:</h3>
+          <p>{{ teacher.qualifications }}</p>
+        </div>
+        <hr>
+        <div class="contact">
+          <h3>Contact</h3>
+          <p>Email: <a href="mailto:{{ teacher.user.email }}">{{ teacher.user.email }}</a></p> </div>
+      </div>
+    
 {% endblock %}

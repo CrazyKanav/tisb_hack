@@ -24,7 +24,6 @@ class User(db.Model):
     email = db.Column(db.String, nullable=False, )
     password = db.Column(db.String, nullable=False)
 
-    # student = relationship("Student", uselist=False, back_populates="user", cascade="all, delete-orphan")
 
     teacher = relationship("Teacher", uselist=False, back_populates="user", cascade="all, delete-orphan")
 
