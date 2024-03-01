@@ -1,0 +1,53 @@
+/* Basic styling */
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  h1, h2 {
+    margin: 0 0 20px;
+  }
+  
+  /* Form container */
+  .signup-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  /* Styling for form elements */
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+  }
+  
+  textarea {
+    resize: vertical;
+  }
+  
+  input[type="submit"] {
+    background-color: #3498db; /* Blue color */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: #2980b9; /* Slightly darker blue on hover */
+  }
+  

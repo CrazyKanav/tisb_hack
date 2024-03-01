@@ -1,12 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'layout.html' %}
+{% block head %}
     <title>Signup as Teacher</title>
-</head>
-<body>
-    <h2>Signup as Teacher</h2>
+    <link rel="stylesheet" href="/static/styles/signup_teacher.css">
+<link rel="stylesheet" href="/static/styles/index.css">
+
+{% endblock %}
+{% block body %}
+<nav class="navbar">
+    <a href="/" class="brand">Online Tutoring</a>
+    <ul class="nav-links">
+        <li><a href="/signup_teacher">Signup as Teacher</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+</nav>
+<br><br>
+    <h1>Signup as Teacher</h1>
     <form action="/signup_teacher" method="post">
         <label for="bio">Bio:</label><br>
         <textarea id="bio" name="bio" rows="4" cols="50" required></textarea><br>
@@ -20,5 +28,4 @@
           </select>
         <input type="submit" value="Submit">
     </form>
-</body>
-</html>
+{% endblock %}
