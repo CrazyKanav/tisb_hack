@@ -80,33 +80,6 @@ def get_subjects():
   subjects = Subject.query.all()
   return subjects
 
-import geocoder
-
-def get_city_from_coords(latitude, longitude):
-  try:
-    # Use geocoder to get location data
-    location = geocoder.reverse([latitude, longitude])
-
-    # Extract the city name from the address dictionary (if available)
-    if location and location.city:
-      return location.city
-    else:
-      return None
-  except Exception as e:
-    print(f"Error getting city: {e}")
-    return None
-
-# Example usage
-user_latitude = -74.005974  # Example latitude
-user_longitude = 40.712772  # Example longitude
-
-city_name = get_city_from_coords(user_latitude, user_longitude)
-
-if city_name:
-  print(f"User's city: {city_name}")
-else:
-  print("Unable to determine city.")
-
 @app.route('/signup_teacher', methods=["GET", "POST"])
 def signup_teacher():
     if request.method == "POST":
@@ -270,7 +243,7 @@ def teacher(id):
   teacher_lon = teacher.user.location_lon
   kilometers = distance(user_lat, user_lon, teacher_lat, teacher_lon)
 
-  return render_template("teacher.html", teacher=teacher, kilometers=kilometers)
+  return render_template("teacher.html", teacher=teacher, kilometers=round(kilometers))
 
 if __name__ == "__main__":
   app.run(debug=True)
