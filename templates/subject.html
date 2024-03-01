@@ -33,5 +33,27 @@
         </a>
     {% endfor %}
     </div>
+    {% if closest_teacher %}
+        <h1>The closest teacher to you is</h1>
+        <a href="/teacher/{{ closest_teacher.id }}">
+            <div class="teacher-card">
+                <h2>{{ closest_teacher.user.firstname}} {{ closest_teacher.user.lastname }}</h2>
+                <p>{{ closest_teacher.user.age}} years old</p>
+                <h4>Bio: </h4>
+                <p>{{ closest_teacher.bio }}</p>
+                <h4>Qualifications</h4>
+                <p>{{ closest_teacher.qualifications }}</p>
+                <div class="contact">
+                    <p>{{ closest_teacher.user.email }}</p>
+                </div>
+            </div>
+        </a>
+    {% else %}
+    <h1>Find closest teacher</h1>
+        <form action="/subject/{{ teachers[0].subject }}" method="post">
+            <input type="hidden" name="subject" value="{{ teachers[0].subject }}">
+            <input type="submit" class="closest_submit">
+        </form>
+    {% endif %}
 {% endblock %}
  
